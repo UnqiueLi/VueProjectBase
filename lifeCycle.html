@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.0/vue.global.js"></script>
+</head>
+<body>
+    <div id="id"></div>
+    <script>
+        let vm =  new Vue({
+            el:'#app',
+            data:{
+                a:'hello'
+            },
+            // 钩子函数，在new vue的时候会最先调用，这个钩子一般不会做太多功能，地层中可以做一些链
+            beforeCreate(){
+                // 会初始化自己的生命周期，事件方法$on,$emit
+                console.log(this,'this')
+            },
+            create(){
+                // 响应式数据变化，无法获取真实dom元素
+                console.log(this.$el)
+            },
+            render(createElement){
+                return createElement('div',{attrs:{id:123}},'hello');
+            },
+            template:`<div>hello</div>`,
+            beforeMount(){
+                // 挂载以前,检测有没有template属性
+                console.log('aaa')
+            },
+            mounted(){
+                // 唯一区别就是可以获取到真实的元素
+                console.log('挂载后')
+            },
+            beforeUpdate(){
+                // 在更新之前做一次修改
+                this.a=100
+            },
+            update(){
+                // 不能在修改值，这个钩子不要更改数据，watch
+                console.log(this.a)
+            },
+            beforeDestory(){
+                console.log('销毁前')
+            },
+            destoryed(){
+                console.log('销毁后')
+            }
+        })
+    </script>
+</body>
+</html>
